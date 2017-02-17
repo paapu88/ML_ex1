@@ -43,4 +43,4 @@ print(x.shape, y.shape, theta.shape, data.shape)
 print("cost: ",computeCost(data, y, theta) )
 
 # run gradient descent
-# theta = gradientDescent(X, y, theta, alpha, iterations);
+theta = gradientDescent(X, y, theta, alpha, iterations);

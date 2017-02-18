@@ -1,4 +1,4 @@
-def gradientDescent(x, y, theta, alpha, num_iters):
+def gradientDescent(x, y, alpha, num_iters):
     """
     GRADIENTDESCENT Performs gradient descent to learn theta
 
@@ -12,6 +12,7 @@ def gradientDescent(x, y, theta, alpha, num_iters):
     import numpy as np
     from computeCost import computeCost
 
+    theta = np.zeros(shape=(2, 1))  # initialize fitting parameters
 
     m = len(y) # number of training examples
     J_history = np.zeros([num_iters, 1])
@@ -21,7 +22,7 @@ def gradientDescent(x, y, theta, alpha, num_iters):
         txmy = theta.T * x.T -y
         d1 = - alpha/m * np.sum(txmy)
         d2 = - alpha/m * np.sum(np.multiply(txmy, x[:,1].T))
-        print ("changes", d1, d2)
+        #print ("changes", d1, d2)
         theta[0,0] = theta[0,0] + d1
         # print(txmy.shape, x[:,1].T.shape)
         # print(np.multiply(txmy, x[:,1].T))
@@ -30,6 +31,6 @@ def gradientDescent(x, y, theta, alpha, num_iters):
 
         # Save the cost
         J_history[iter] = computeCost(x, y, theta);
-        print("iter, cost: ", iter, J_history[iter], theta)
+        # print("iter, cost: ", iter, J_history[iter], theta)
 
     return theta, J_history

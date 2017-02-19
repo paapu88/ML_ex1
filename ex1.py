@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from computeCost import computeCost
 from gradienDescent import gradientDescent
-
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
 
 # part 1 warm up
 print(warmUpExercise())
@@ -69,3 +70,49 @@ print(predict1*10000)
 predict2 = np.asmatrix([[1, 7]]) * theta
 print('For population = 70,000, we predict a profit of ')
 print(predict2*10000)
+
+# ============= Part 4: Visualizing J(theta_0, theta_1) =============
+print('Visualizing J(theta_0, theta_1) ...')
+
+# Grid over which we will calculate J
+theta0_vals = np.linspace(-10, 10, 100)
+theta1_vals = np.linspace(-1, 4, 100)
+
+# initialize J_vals to a matrix of 0's
+J_vals = np.zeros(shape=(len(theta0_vals), len(theta1_vals)))
+# Fill out J_vals
+t = np.zeros(shape=(2, 1))
+for i in range(len(theta0_vals)):
+    for j in range(len(theta1_vals)):
+          t[0,0] = theta0_vals[i]
+          t[1,0] = theta1_vals[j]
+          J_vals[i,j] = computeCost(data, y, t)
+          print(i,j,J_vals[i,j])
+
+# Because of the way meshgrids work in the surf command, we need to
+# transpose J_vals before calling surf, or else the axes will be flipped
+J_vals = J_vals.T;
+# Surface plot
+
+# Plot the surface.
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+theta0_vals, theta1_vals = np.meshgrid(theta0_vals, theta1_vals)
+surf = ax.plot_surface(theta0_vals, theta1_vals, J_vals, cmap=cm.coolwarm,
+                       linewidth=0, antialiased=False)
+
+#surf(theta0_vals, theta1_vals, J_vals)
+#xlabel('\theta_0'); ylabel('\theta_1');
+plt.show()
+
+# Contour plot
+# Plot J_vals as 15 contours spaced logarithmically between 0.01 and 100
+#contour(theta0_vals, theta1_vals, J_vals, logspace(-2, 3, 20))
+#xlabel('\theta_0'); ylabel('\theta_1');
+#hold on;
+#plot(theta(1), theta(2), 'rx', 'MarkerSize', 10, 'LineWidth', 2);
+
+CS = plt.contour(theta0_vals, theta1_vals, J_vals)
+plt.clabel(CS, inline=1, fontsize=10)
+plt.title('Simplest default with labels')
+plt.show()
